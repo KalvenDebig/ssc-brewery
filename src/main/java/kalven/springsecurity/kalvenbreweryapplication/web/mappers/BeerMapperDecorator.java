@@ -4,6 +4,7 @@ import kalven.springsecurity.kalvenbreweryapplication.domain.Beer;
 import kalven.springsecurity.kalvenbreweryapplication.domain.BeerInventory;
 import kalven.springsecurity.kalvenbreweryapplication.web.model.BeerDto;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -12,9 +13,14 @@ import org.springframework.beans.factory.annotation.Qualifier;
  * @Author kalvens on 2/20/23
  */
 
-@AllArgsConstructor
 public abstract class BeerMapperDecorator implements BeerMapper {
-    private final BeerMapper beerMapper;
+    private BeerMapper beerMapper;
+
+    @Autowired
+    @Qualifier("delegate")
+    public void setBeerMapper(BeerMapper beerMapper) {
+        this.beerMapper = beerMapper;
+    }
 
     @Override
     public BeerDto beerToBeerDto(Beer beer) {

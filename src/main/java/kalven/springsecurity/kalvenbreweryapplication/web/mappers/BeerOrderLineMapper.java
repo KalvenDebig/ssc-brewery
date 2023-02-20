@@ -4,6 +4,7 @@ import kalven.springsecurity.kalvenbreweryapplication.domain.BeerOrderLine;
 import kalven.springsecurity.kalvenbreweryapplication.web.model.BeerOrderLineDto;
 import org.mapstruct.DecoratedWith;
 import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 
 /**
  * @Project kalven-brewery-application

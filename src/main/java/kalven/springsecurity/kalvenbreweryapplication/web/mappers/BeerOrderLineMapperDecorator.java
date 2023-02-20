@@ -4,15 +4,29 @@ import kalven.springsecurity.kalvenbreweryapplication.domain.BeerOrderLine;
 import kalven.springsecurity.kalvenbreweryapplication.repositories.BeerRepository;
 import kalven.springsecurity.kalvenbreweryapplication.web.model.BeerOrderLineDto;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
  * @Project kalven-brewery-application
  * @Author kalvens on 2/20/23
  */
-@AllArgsConstructor
 public abstract class BeerOrderLineMapperDecorator implements BeerOrderLineMapper {
-    private final BeerRepository beerRepository;
-    private final BeerOrderLineMapper beerOrderLineMapper;
+    private BeerRepository beerRepository;
+    private BeerOrderLineMapper beerOrderLineMapper;
+
+    @Autowired
+    public void setBeerRepository(BeerRepository beerRepository) {
+        this.beerRepository = beerRepository;
+    }
+
+    @Autowired
+    @Qualifier("delegate")
+    public void setBeerOrderLineMapper(BeerOrderLineMapper beerOrderLineMapper) {
+        this.beerOrderLineMapper = beerOrderLineMapper;
+    }
 
     @Override
     public BeerOrderLineDto beerOrderLineToDto(BeerOrderLine line) {
