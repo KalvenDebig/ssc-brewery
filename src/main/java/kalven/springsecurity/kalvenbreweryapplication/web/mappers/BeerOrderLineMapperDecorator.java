@@ -3,9 +3,6 @@ package kalven.springsecurity.kalvenbreweryapplication.web.mappers;
 import kalven.springsecurity.kalvenbreweryapplication.domain.BeerOrderLine;
 import kalven.springsecurity.kalvenbreweryapplication.repositories.BeerRepository;
 import kalven.springsecurity.kalvenbreweryapplication.web.model.BeerOrderLineDto;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -30,16 +27,17 @@ public abstract class BeerOrderLineMapperDecorator implements BeerOrderLineMappe
 
     @Override
     public BeerOrderLineDto beerOrderLineToDto(BeerOrderLine line) {
-        BeerOrderLineDto dto = beerOrderLineMapper.beerOrderLineToDto(line);
-        dto.setBeerId(line.getBeer().getId());
-        return dto;
+        BeerOrderLineDto orderLineDto = beerOrderLineMapper.beerOrderLineToDto(line);
+        orderLineDto.setBeerId(line.getBeer().getId());
+        return orderLineDto;
     }
 
     @Override
     public BeerOrderLine dtoToBeerOrderLine(BeerOrderLineDto dto) {
-        BeerOrderLine line = beerOrderLineMapper.dtoToBeerOrderLine(dto);
-        line.setBeer(beerRepository.getReferenceById(dto.getBeerId()));
-        line.setQuantityAllocated(0);
-        return line;
+        BeerOrderLine beerOrderLine = beerOrderLineMapper.dtoToBeerOrderLine(dto);
+        beerOrderLine.setBeer(beerRepository.getOne(dto.getBeerId()));
+        beerOrderLine.setQuantityAllocated(0);
+        return beerOrderLine;
     }
 }
+

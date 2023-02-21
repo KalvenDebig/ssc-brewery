@@ -4,7 +4,6 @@ import kalven.springsecurity.kalvenbreweryapplication.domain.Beer;
 import kalven.springsecurity.kalvenbreweryapplication.web.model.BeerDto;
 import org.mapstruct.DecoratedWith;
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
 
 /**
  * @Project kalven-brewery-application
@@ -14,6 +13,8 @@ import org.mapstruct.factory.Mappers;
 @Mapper(uses = DateMapper.class)
 @DecoratedWith(BeerMapperDecorator.class)
 public interface BeerMapper {
+
     BeerDto beerToBeerDto(Beer beer);
+
     Beer beerDtoToBeer(BeerDto beerDto);
 }

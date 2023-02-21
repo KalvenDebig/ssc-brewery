@@ -13,7 +13,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
  * @Author kalvens on 2/20/23
  */
 
-public abstract class BeerMapperDecorator implements BeerMapper {
+public abstract class BeerMapperDecorator implements BeerMapper{
+
     private BeerMapper beerMapper;
 
     @Autowired
@@ -24,11 +25,12 @@ public abstract class BeerMapperDecorator implements BeerMapper {
 
     @Override
     public BeerDto beerToBeerDto(Beer beer) {
+
         BeerDto dto = beerMapper.beerToBeerDto(beer);
-        if (beer.getBeerInventory() != null && beer.getBeerInventory().size() > 0) {
+
+        if(beer.getBeerInventory() != null && beer.getBeerInventory().size() > 0) {
             dto.setQuantityOnHand(beer.getBeerInventory()
-                    .stream()
-                    .map(BeerInventory::getQuantityOnHand)
+                    .stream().map(BeerInventory::getQuantityOnHand)
                     .reduce(0, Integer::sum));
         }
 
