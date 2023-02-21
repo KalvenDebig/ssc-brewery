@@ -33,6 +33,7 @@ public class DefaultBreweryLoader implements CommandLineRunner {
     public void run(String... args) throws Exception {
         loadBreweryData();
         loadCustomerData();
+        System.out.println("Beer Repo count: " + beerOrderRepository.count());
     }
 
     private void loadCustomerData() {

@@ -34,14 +34,20 @@ public class BeerServiceImpl implements BeerService {
     public BeerPagedList listBeers(String beerName, BeerStyleEnum beerStyle, PageRequest pageRequest, Boolean showInventoryOnHand) {
         BeerPagedList beerPagedList;
         Page<Beer> beerPage;
-        // Search by both beerName and beerStyle
-        if (StringUtils.hasLength(beerName) && StringUtils.hasLength(String.valueOf(beerStyle))) {
+        if (beerName != null && !StringUtils.trimAllWhitespace(beerName).isEmpty()
+                && beerStyle != null && !StringUtils.trimAllWhitespace(String.valueOf(beerStyle)).isEmpty()) {
+            log.debug("Search by Both");
             beerPage = beerRepository.findAllByBeerNameAndBeerStyle(beerName, beerStyle, pageRequest);
-        } else if (StringUtils.hasLength(beerName) && !StringUtils.hasLength(String.valueOf(beerStyle))) {
+        } else if (beerName != null && !StringUtils.trimAllWhitespace(beerName).isEmpty()
+                && (beerStyle == null || StringUtils.trimAllWhitespace(String.valueOf(beerStyle)).isEmpty())) {
+            log.debug("Search by Name");
             beerPage = beerRepository.findAllByBeerName(beerName, pageRequest);
-        } else if (!StringUtils.hasLength(beerName) && StringUtils.hasLength(String.valueOf(beerStyle))) {
+        } else if ((beerName == null || StringUtils.trimAllWhitespace(beerName).isEmpty())
+                && beerStyle != null && !StringUtils.trimAllWhitespace(String.valueOf(beerStyle)).isEmpty()) {
+            log.debug("Search by Style");
             beerPage = beerRepository.findAllByBeerStyle(beerStyle, pageRequest);
         } else {
+            log.debug("Search all");
             beerPage = beerRepository.findAll(pageRequest);
         }
 

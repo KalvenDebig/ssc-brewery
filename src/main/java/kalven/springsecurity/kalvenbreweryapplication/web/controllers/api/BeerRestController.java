@@ -31,7 +31,7 @@ public class BeerRestController {
     private static final Integer DEFAULT_PAGE_SIZE = 25;
     private final BeerService beerService;
 
-    @GetMapping(produces = {"application/json"}, path = "beer")
+    @GetMapping(produces = {"application/json"}, path = "list_beers")
     public ResponseEntity<BeerPagedList> listBeers(@RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                                                    @RequestParam(value = "pageSize", required = false) Integer pageSize,
                                                    @RequestParam(value = "beerName", required = false) String beerName,
@@ -52,6 +52,7 @@ public class BeerRestController {
         }
 
         BeerPagedList beerList = beerService.listBeers(beerName, beerStyle, PageRequest.of(pageNumber, pageSize), show);
+        log.debug("Request Received");
         return new ResponseEntity<>(beerList, HttpStatus.OK);
     }
 
