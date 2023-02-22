@@ -92,11 +92,11 @@
 
 ## Spring Security for Common Vulnerabilities
 
-* Spring Security has built in suppor to address several common vulnerabilities
+* Spring Security has built in support to address several common vulnerabilities
     * Cross-site Scripting (XSS)
     * Cross-site Request Forgery (CSRF)
     * Security HTTP Response Headers
-        * Variety of headers can be set to imporve browser security
+        * Variety of headers can be set to improve browser security
     * Redirect to HTTPS
 
 ## Anatomy of a XXS Attack
@@ -121,9 +121,9 @@
 
 ## Cross-Site Request Forgery - CSRF
 
-* A Cross-Site Request Forgery (CSRF) attack is when a site tricks the user's web browser to send a requst to a cite where the user is authenticated
+* A Cross-Site Request Forgery (CSRF) attack is when a site tricks the user's web browser to send a request to a cite where the user is authenticated
 * CSRF attacks work because the browser is tricked into sending session cookies to the trusted site
-* Thus, the trusted site cannot distinguish the request is not fomr the authenticated user
+* Thus, the trusted site cannot distinguish the request is not form the authenticated user
 
 ## Synchronizer Token Pattern
 
@@ -136,20 +136,20 @@
 
 ## SameSite Cookie Attribute
 
-* The SameSite cookie attribute can be set to tell browswer to not send cookie whne request is coming from other sites
-* SameSite cookie attribute is supported on all modren browswers
+* The SameSite cookie attribute can be set to tell browser to not send cookie when request is coming from other sites
+* SameSite cookie attribute is supported on all modern browsers
 * Supports - None, Lax(~subdomain), Strict
-* Modern browswers transitioning from None to Lax if not explicitly set.
+* Modern browsers transitioning from None to Lax if not explicitly set.
 * Should not solely rely on SameSite attribute for CSRF prevention
 
 
 ## When to use CSRF Protection?
 
 * Spring security Team recommends:
-    * Use CRSF when request are processed by a browswer by normal users
+    * Use CRSF when request are processed by a browser by normal users
         - ie - HTML, Single page apps (Angular, React, etc)
-    * If only used by non-browswer clients, disable CSRF
-        * ie - programatic clients, like spring resttemplate or webclient
+    * If only used by non-browser clients, disable CSRF
+        * ie - programmatic clients, like spring resttemplate or webclient
 
 ## Overview HTTP Basic Authentication
 
@@ -171,7 +171,7 @@
 * When Spring Boot detects Spring Security on the classpath, it will auto-configure Spring Security for HTTP Basic Authentication
     * Default User - user
         * Set Property spring.security.user.name to override
-    * Default Password - Random UUID, check consol output
+    * Default Password - Random UUID, check console output
         * Set Property  spring.security.user.password to override
 * All paths secured - except actuator info and health  
 
