@@ -3,8 +3,6 @@ package kalven.springsecurity.kalvenbreweryapplication.web.mappers;
 import kalven.springsecurity.kalvenbreweryapplication.domain.Beer;
 import kalven.springsecurity.kalvenbreweryapplication.domain.BeerInventory;
 import kalven.springsecurity.kalvenbreweryapplication.web.model.BeerDto;
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 

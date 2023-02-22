@@ -1,6 +1,9 @@
 package kalven.springsecurity.kalvenbreweryapplication.web.model;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;

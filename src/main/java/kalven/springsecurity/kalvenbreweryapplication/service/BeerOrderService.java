@@ -2,8 +2,8 @@ package kalven.springsecurity.kalvenbreweryapplication.service;
 
 import kalven.springsecurity.kalvenbreweryapplication.web.model.BeerOrderDto;
 import kalven.springsecurity.kalvenbreweryapplication.web.model.BeerOrderPagedList;
-
 import org.springframework.data.domain.Pageable;
+
 import java.util.UUID;
 
 /**

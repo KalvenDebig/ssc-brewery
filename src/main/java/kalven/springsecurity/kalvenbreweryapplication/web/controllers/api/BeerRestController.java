@@ -31,7 +31,7 @@ public class BeerRestController {
     private static final Integer DEFAULT_PAGE_SIZE = 25;
     private final BeerService beerService;
 
-    @GetMapping(produces = {"application/json"}, path = "list_beers")
+    @GetMapping(produces = {"application/json"}, path = "beer")
     public ResponseEntity<BeerPagedList> listBeers(@RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                                                    @RequestParam(value = "pageSize", required = false) Integer pageSize,
                                                    @RequestParam(value = "beerName", required = false) String beerName,
@@ -99,7 +99,7 @@ public class BeerRestController {
 
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    ResponseEntity<List> badReqeustHandler(ConstraintViolationException e){
+    ResponseEntity<List> badRequestHandler(ConstraintViolationException e){
         List<String> errors = new ArrayList<>(e.getConstraintViolations().size());
 
         e.getConstraintViolations().forEach(constraintViolation -> {

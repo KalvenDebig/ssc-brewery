@@ -175,3 +175,96 @@
         * Set Property  spring.security.user.password to override
 * All paths secured - except actuator info and health  
 
+
+## Spring Security Authentication Components  
+
+* Authentication Filter - A filter for a specific Authentication type in the Spring Security filter chain (ie basic auth, remember me cookies, etc)  
+* Authentication Manager - Standard API interface used by filter  
+* Authentication Provider - The implementation of Authentication (in memory, database, etc)  
+* User Details Service - Service to provide information about user  
+* Password Encoder - Service to encrypt and verify passwords  
+* Security Context - Holds details about authenticated entity  
+
+## In Memory User Details Manager  
+
+* Implements User Details Service  
+* Used by Spring Boot Auto-configuration  
+* Non-persistent implementation - uses in memory map  
+* Mainly used for testing and demonstration purposes  
+    * Not normally used in production systems  
+
+## Password Storage and Encoding  
+
+* When logging in, the application needs to verify the entered password matchers the password value stored in the system  
+* Legacy systems sometimes store passwords as plain text  
+    * Obviously not ideal  
+* Other systems encrypt the password in the database, then decrypt to verify  
+    * Again not ideal - can be decrypted to original value  
+
+
+## Password Hash  
+
+* A hash is a one-way mathematical algorithm applied to the password
+    * One way meaning the hash value can be generated from a password  
+    * But the password cannot be generated from the hash value  
+* Example  
+    * password: password 1 
+    * hash value: 5f4dcc3b5aa765d61d8327deb882cf99  
+* In this theoretical example, the stirng `password 1` will always hash to `hash value`  
+
+
+## Password Salt  
+
+* Problem where hash functions generating known hash values  
+    * Became a dictionary attack to guess passwords from hash value  
+* Solution is to use a salt value  
+* A salt is additional data added to the value being hashed  
+* Example of password with salt: password1{ThisIsMyReallyLongPasswordSaltValue}  
+* Modern algorithms use random salt values  
+    * Thus hash value changes each time  
+
+## Password Hash Functions  
+
+* The security area of Hash functions is effectively an arms race  
+    * As computational power increases, researchers find more vulnerabilities  
+* Spring Security supports plain text and order hash functions for compatibility with legacy systems  
+* These encoders are marked as deprecated to warn you they are not recommended for use  
+
+
+## Delegating Password Encoder  
+
+* Spring Security 5 introduced a delegating password encoder  
+* Allows storage of password hashes in multiple formats  
+* Password hashes stores as - {encodername}<somepasswordhashvalue>  
+* Thus allows you to support multiple hash algorithms while migrating.  
+
+
+## Password Encoder Recommendation  
+
+* The Spring Security team recommends using an adaptive one way encoding function such as:  
+    * BCrypt (Default) 
+    * Pbkdf2  
+    * SCrypt  
+* These are also considered `slow`, which are computationally expensive to guard against brute force attacks  
+
+
+## Spring Security Filters  
+
+* All Spring Security Filters implement the Filter interface  
+    * Part of the Java Servlet API  
+    * Accepts Servlet Request, Servlet Response, and Filter Chain  
+* Can be used to implement actions on the Request or Response  
+* HTTP Basic Authentication is using the filter `BasicAuthenticationFilter`  
+    * Inspects Request for HTTP Basic credentials and performs Authentication  
+
+## Custom Spring Security Filter Use Case  
+
+* Hypothetically speaking we have a REST API using cutom headers for Authentication  
+* Goal here is to mimic a legacy application  
+    * Thi is not a recommended approach for Authentication  
+* Legacy Application sending API key and API Secret in HTTP Headers  
+* Create a Spring Security filter for this legacy Authentication  
+    * Extend Spring Security's AbstractAuthenticationProcessingFilter  
+    * Configure Spring Security to use Custom Filter  
+
+    
