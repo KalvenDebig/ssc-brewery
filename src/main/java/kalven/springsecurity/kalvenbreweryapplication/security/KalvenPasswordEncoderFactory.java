@@ -1,9 +1,7 @@
 package kalven.springsecurity.kalvenbreweryapplication.security;
 
-import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.*;
-import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
