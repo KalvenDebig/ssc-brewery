@@ -2,6 +2,7 @@ package kalven.springsecurity.kalvenbreweryapplication.config;
 
 import kalven.springsecurity.kalvenbreweryapplication.security.KalvenPasswordEncoderFactory;
 import kalven.springsecurity.kalvenbreweryapplication.security.RestHeaderAuthFilter;
+import kalven.springsecurity.kalvenbreweryapplication.security.RestUrlAuthFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -34,6 +35,13 @@ public class SecurityConfig {
         return filter;
     }
 
+    public RestUrlAuthFilter restUrlAuthFilter(AuthenticationManager authenticationManager) {
+        RestUrlAuthFilter filter = new RestUrlAuthFilter(new AntPathRequestMatcher("/api/**"));
+        filter.setAuthenticationManager(authenticationManager);
+
+        return filter;
+    }
+
     @Bean
     PasswordEncoder passwordEncoder() {
         return KalvenPasswordEncoderFactory.createDelegatingPasswordEncoder("bcrypt15");
@@ -52,6 +60,8 @@ public class SecurityConfig {
 
         http.addFilterBefore(restHeaderAuthFilter(authenticationManager), UsernamePasswordAuthenticationFilter.class)
                 .csrf().disable();
+
+        http.addFilterBefore(restUrlAuthFilter(authenticationManager), UsernamePasswordAuthenticationFilter.class);
 
         http.authorizeHttpRequests(authorize -> {
                     authorize

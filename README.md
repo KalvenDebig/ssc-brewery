@@ -267,4 +267,21 @@
     * Extend Spring Security's AbstractAuthenticationProcessingFilter  
     * Configure Spring Security to use Custom Filter  
 
-    
+---
+
+## Spring Security Database Authentication  
+
+* Using a traditional databse for Authenticatio is amatter of providing an alternate User Details Service  
+    * Spring security provides the interface, you provide the implementation  
+    * Can be in memory, JDBC, NoSQL, external service, tc.  
+* Spring Security does provide a JDBC implementation with database schemas  
+    * Typically a starting point and then customized to your application 
+
+## Spring Security JPA Authentication  
+
+* Provide custom Database Authentication using Spring Data JPA  
+* Need User and Authority JPA Entities  
+* Spring Data JPA Repositories  
+* Custom implementation of User Details Service using Spring Data Repostiories  
+* Configure Sping Security to use custom imlementation of User Details Service  
+
