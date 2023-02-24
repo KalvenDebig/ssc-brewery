@@ -46,6 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 http
                 .authorizeRequests(authorize -> {
                     authorize
+                            .antMatchers("/h2-console/**").permitAll() // do not allow this in production env
                             .antMatchers("/", "/webjars/**", "/login", "/resources/**").permitAll()
                             .antMatchers("/beers/find", "/beers*").permitAll()
                             .antMatchers(HttpMethod.GET, "/api/v1/beer/**").permitAll()
@@ -56,6 +57,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin().and()
                 .httpBasic();
+
+                // h2 config
+        http.headers().frameOptions().sameOrigin();
+
     }
 
     @Bean
@@ -76,37 +81,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         auth.inMemoryAuthentication().withUser("scott").password("{bcrypt10}$2a$10$jv7rEbL65k4Q3d/mqG5MLuLDLTlg5oKoq2QOOojfB3e2awo.nlmgu").roles("CUSTOMER");
     }
-
-    //    @Override
-//    @Bean
-//    protected UserDetailsService userDetailsService() {
-//        UserDetails admin = User.withDefaultPasswordEncoder()
-//                .username("spring")
-//                .password("guru")
-//                .roles("ADMIN")
-//                .build();
-//
-//        UserDetails user = User.withDefaultPasswordEncoder()
-//                .username("user")
-//                .password("password")
-//                .roles("USER")
-//                .build();
-//
-//        return new InMemoryUserDetailsManager(admin, user);
-//    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
