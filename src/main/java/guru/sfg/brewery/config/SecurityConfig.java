@@ -36,49 +36,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-                http.addFilterBefore(restHeaderAuthFilter(authenticationManager()),
-                        UsernamePasswordAuthenticationFilter.class)
-                .csrf().disable();
+        http.addFilterBefore(restHeaderAuthFilter(authenticationManager()),
+                UsernamePasswordAuthenticationFilter.class).csrf().disable();
+        http.addFilterBefore(restUrlAuthFilter(authenticationManager()),
+                UsernamePasswordAuthenticationFilter.class);
 
-                http.addFilterBefore(restUrlAuthFilter(authenticationManager()),
-                        UsernamePasswordAuthenticationFilter.class);
-
-                http
-                .authorizeRequests(authorize -> {
-                    authorize
-                            .antMatchers("/h2-console/**").permitAll() // do not allow this in production env
-                            .antMatchers("/", "/webjars/**", "/login", "/resources/**").permitAll()
-                            .antMatchers("/beers/find", "/beers*").permitAll()
-                            .antMatchers(HttpMethod.GET, "/api/v1/beer/**").permitAll()
-                            .mvcMatchers(HttpMethod.GET, "/api/v1/beerUpc/{upc}").permitAll();
-                } )
+        http.authorizeRequests(authorize -> {
+            authorize.antMatchers("/h2-console/**").permitAll()
+                    .antMatchers("/", "/webjars/**", "/login", "/resources/**").permitAll()
+                    .antMatchers("/beers/find", "/beers*").permitAll()
+                    .antMatchers(HttpMethod.GET, "/api/v1/beer/**").permitAll()
+                    .mvcMatchers(HttpMethod.GET, "/api/v1/beerUpc/{upc}").permitAll();
+        })
                 .authorizeRequests()
                 .anyRequest().authenticated()
                 .and()
-                .formLogin().and()
-                .httpBasic();
+                .formLogin()
+                .and().httpBasic();
 
-                // h2 config
         http.headers().frameOptions().sameOrigin();
-
     }
 
     @Bean
     PasswordEncoder passwordEncoder(){
         return SfgPasswordEncoderFactories.createDelegatingPasswordEncoder();
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("spring")
-                .password("{bcrypt}$2a$10$7tYAvVL2/KwcQTcQywHIleKueg4ZK7y7d44hKyngjTwHCDlesxdla")
-                .roles("ADMIN")
-                .and()
-                .withUser("user")
-                .password("{sha256}1296cefceb47413d3fb91ac7586a4625c33937b4d3109f5a4dd96c79c46193a029db713b96006ded")
-                .roles("USER");
-
-        auth.inMemoryAuthentication().withUser("scott").password("{bcrypt10}$2a$10$jv7rEbL65k4Q3d/mqG5MLuLDLTlg5oKoq2QOOojfB3e2awo.nlmgu").roles("CUSTOMER");
     }
 }
