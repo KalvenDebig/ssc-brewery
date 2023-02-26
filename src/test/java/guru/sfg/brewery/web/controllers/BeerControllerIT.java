@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.anonymous;
@@ -28,14 +27,13 @@ public class BeerControllerIT extends BaseIT{
     @DisplayName("Init New Form")
     @Nested
     class InitNewForm {
-        @ParameterizedTest(name = "#{index} with [{arguments}]")
-        @MethodSource("guru.sfg.brewery.web.controllers.BeerControllerIT#getStreamAllUsers")
-        void initCreationFormAuth(String user, String password) throws Exception {
-            mockMvc.perform(get("/beers/new").with(httpBasic(user, password)))
+        @Test
+        void initCreationFormAuth() throws Exception {
+            mockMvc.perform(get("/beers/new").with(httpBasic("spring", "guru")))
                     .andExpect(view().name("beers/createBeer"))
                     .andExpect(model().attributeExists("beer"));
         }
-
+        @Test
         void initCreationFormNotAuth() throws Exception {
             mockMvc.perform(get("/beers/new"))
                     .andExpect(status().isUnauthorized());

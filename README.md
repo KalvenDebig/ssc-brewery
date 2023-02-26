@@ -383,4 +383,14 @@
     * Require ADMIN or CUSTOMER Role for list customers  
     * Require ADMIN for Register Customer  
     
-    
+---
+
+## Refactor User Authorities  
+
+* Current user roles are very broad in scope  
+* Do not match granularity of application  
+* How to describe different of access of CRUD type operations  
+* This problem would only grow in scope with complexity of application  
+* Solution: Refactor to traditional model of roles with authorities  
+* User assigend a role, which has a set of defined authorities  
+
