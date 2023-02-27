@@ -421,4 +421,34 @@
 * For our use case, we will add Customer to the UserDetails object 
     * Rather than using the Spring Security User Object, we will implement our own  
 
+---  
+
+## Beer Order Controller Functionality  
+
+* The Beer Order Controller exposes endpoints for:  
+    * Create new Beer Order  
+    * List Beer Orders for Customer, Get Order by ID  
+    * Pickup Order - mimics a API transaction to 'pickup' an order  
+* Update and delete Beer Order not implemented  
+
+## Write Failing Tests  
+
+* Create Order  
+    * Not Logged in cannot create order  
+    * Admin can create for any customer  
+    * Customer User can create their customer  
+    * Customer User cannot create for a different customer  
+
+* Read Order
+    * Not Logged in cannot Read order  
+    * Admin can read for any customer  
+    * Customer User can Read their customer  
+    * Customer User cannot read other customers  
+
+* Pickup Order - API transaction for Customer to 'pickup' an order  
+    * Not Logged in cannot pickup order  
+    * Admin can Pickup for any customer  
+    * Customer User can Pickup their customer  
+    * Customer User cannot Pickup other customers  
+
     
