@@ -483,4 +483,77 @@
 
 * Update Application to show or hide menu options and buttons based on user permissions  
 
+---
 
+## Remember Me Overview  
+
+* Remember Me is a technique of allowing a web application to `remember` the login details of a user  
+* Allows user to stay signed into web application, without having to login again
+    * Logins in Java are typically tracked with a session id, which is short lived  
+* Remember Me is implemented by storing user details in a cookie  
+    * Application uses cookie details to authenticate user upon their return  
+    * Cookie can be set to expire after X period of time  
+
+* Remember Me is typically done by user opt-in  
+    * User should not use Remember Me on public computers  
+    * Should not be done automatically  
+
+## Remember Me Problems  
+
+* Data in Remember Me is used to authenticate  
+* If compromised, the Remember Me cookie could be used to impersonate the user  
+    * Effectively a username and password rolled into a cookie  
+* Best practive is to never send Remeber Me cookies over HTTP  
+    * Always use HTTPS to protect cookies from third parties  
+
+## Remeber Me Precautions  
+
+* Due to potential compromise of Remeber Me Cookies, sensitive funcitons should be restrcited  
+* Spring Security has methods for `isRemmebered` or `isAuthenticatedFully`  
+* Require full authentication for functions such as:  
+    * Password change  
+    * Email change  
+    * Update of personal information - name, address, payment information, etc  
+    * Making purchases  
+
+## Spring Security Remember Me  
+
+* Spring Security provides two remember me implements  
+    * Simple Hash-Based Token  
+    * Persitent Token  
+* Both implementations required a UserDetailsService  
+    * Not all authentication provides have a UserDetailsService  
+        * For example, LDAP  
+
+## Simple Hash-Based Token  
+
+* The Simple Hash-Based Token is a Base64 string consisting of:  
+    * base54(username + ":" + expirationTime + ":" + md5Hex(username + ":" + expirationTime + ":" password + ":" + key))  
+* The advantage of having the password in the hash in the user can change their password and invalidate all remember me tokens  
+* Can support multiple browswers/computers  
+* Attacker can use cookie until it expires or password is changed  
+
+
+## Persistent Token  
+
+* Remeber Me Cookie contains: username, a series id, and a token (random string)  
+    * These values are persisted to the database  
+* On login via Remember Me valuse are fetched from database  
+    * If matched, user is authenticated, and new token is created for series id (browswer/devices)  
+    * If username and series match, but token does not, theft is assumed  
+        * Delete all tokens for user  
+    * Shortens attack window until real user logs in vs expirationTime  
+    * From Drupal CMS  
+
+---  
+
+## Spring Security Authentication Events  
+
+* Spring Security will send an Authentication Success or Authentiaction Failuer Event with every Authentication Attempt  
+* These events are important hooks for monitoring system access  
+* Can be used for: 
+    * Logging who logged in when and from where  
+    * Failed log in attempts  
+    * Automatically lock accounts for too many attempts  
+
+    

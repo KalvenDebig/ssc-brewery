@@ -1,23 +1,30 @@
 package guru.sfg.brewery.config;
 
 import guru.sfg.brewery.security.SfgPasswordEncoderFactories;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.data.repository.query.SecurityEvaluationContextExtension;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
  * Created by jt on 6/13/20.
  */
 @Configuration
+@RequiredArgsConstructor
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    private final UserDetailsService userDetailsService;
+
+    private final PersistentTokenRepository persistentTokenRepository;
     // added for using with spring data jpa SpeL
     @Bean
     public SecurityEvaluationContextExtension securityEvaluationContextExtension() {
@@ -46,7 +53,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                             .logoutSuccessUrl("/?logout").permitAll();
                 })
                 .httpBasic()
-                .and().csrf().ignoringAntMatchers("/h2-console/**", "/api/**");
+                .and().csrf().ignoringAntMatchers("/h2-console/**", "/api/**")
+                .and().rememberMe()
+                        .tokenRepository(persistentTokenRepository).userDetailsService(userDetailsService);
+                // .key("sfg-key").userDetailsService(userDetailsService);
 
         http.headers().frameOptions().sameOrigin();
     }
