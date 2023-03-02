@@ -451,4 +451,36 @@
     * Customer User can Pickup their customer  
     * Customer User cannot Pickup other customers  
 
-    
+---
+
+## Spring Security Tag Libraries  
+
+* Spinrg Security provides a tag library for working with JSP Templates  
+* Thymeleaf provides a tag library with feature parity for Thymeleaf templates  
+    * Features and functionality are the same between JSP and Thymeleaf  
+* We will focus on Thymeleaf examples  
+    * Requires dependency org.thymeleaf.extras:thymeleaf-extras-springsecurity5  
+    * Add namesapce:xmlns:sec="http://www.thymeleaf.org/extras/spring-security"  
+
+## Tag Library Features  
+
+* Spring Security Expression methods in SPel exposed - ie hasRole(), hasAnyAuthority(), etc  
+* Authentication object available - implementation of Spring Security Authentication interface  
+* Tag sec:authentication="xxxx" - outputs value of named property  
+* Tag sec:authorize="expr" or sec:authorize-expr="expr" - renders element based on SPeL expression  
+* Tag sec:authorize-url="url" renders element if user is authorized to view url  
+* Tag sec:authorize-acl="object::permissions" renders element based on ACL permissions  
+
+
+## Login Form  
+
+* In this seciont we will add a login form to the index page  
+    * Configure Spring Security to use Login form  
+    * Show login form if not logged in, redirect to login form on unauthorized access  
+    * Hide login form and show logout link if logged in  
+
+## Tag Library Features  
+
+* Update Application to show or hide menu options and buttons based on user permissions  
+
+
