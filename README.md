@@ -556,4 +556,27 @@
     * Failed log in attempts  
     * Automatically lock accounts for too many attempts  
 
-    
+* Spring Security Authentication Events use the Event functionality found in Spring Framework  
+* Publish / Subscibe Type of Model  
+    * Spring Security will publish the event  
+    * One or more listeners can register to receive the event  
+* Available in all Spring Security Provided Authentication Providers  
+    * You are responsible for event publishing if using custom provider  
+
+## Default Event Mappings Authentication Events  
+
+* BadCredentialsException = AuthenticationFailurebadCredentialsEvent  
+* UsernameNotFoundException = AuthenticationFailureBadCredentialsEvent  
+* AccountExpiredException = AuthenticationFailureExporedEvent  
+* ProviderNotFoundException = AuthenticationFailureProviderNotFoundEvent  
+* DisabledException = AuthenticationFailureDisabledEvent  
+* LockedException = AuthenticationFailureLockedEvent  
+* AuthenticationServiceException = AuthenticationFailureServiceExceptionEvent  
+
+## Customization of Events  
+
+* Spring Security can be configured additional or custom Authentication Events  
+    * Provide own instance of AuthenticationEventPublisher  
+        * Customize as needed  
+
+        
