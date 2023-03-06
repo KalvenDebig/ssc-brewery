@@ -72,6 +72,15 @@ public class User implements UserDetails, CredentialsContainer {
     @UpdateTimestamp
     private Timestamp lastModifiedDate;
 
+    // 2fa
+    @Builder.Default
+    private Boolean userGoogle2fa = false;
+
+    private String google2FaSecret;
+
+    @Transient
+    private Boolean google2FaRequired = true;
+
     @Override
     public void eraseCredentials() {
         this.password = null;
