@@ -28,6 +28,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class Google2faFilter extends GenericFilterBean {
     private final AuthenticationTrustResolver authenticationTrustResolver = new AuthenticationTrustResolverImpl();
+    private final Google2faFailureHandler google2faFailureHandler = new Google2faFailureHandler();
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
@@ -43,7 +44,8 @@ public class Google2faFilter extends GenericFilterBean {
 
                 if (user.getUserGoogle2fa() && user.getGoogle2FaRequired()) {
                     log.debug("2FA Required");
-                    // todo: failure handler
+                    google2faFailureHandler.onAuthenticationFailure(request, response, null);
+                    return;
                 }
             }
         }
