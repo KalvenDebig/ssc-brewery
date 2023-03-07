@@ -245,6 +245,7 @@
     </build>
 
     <scm>
-        <developerConnection>scm:git@github.com:KalvenDebig/ssc-brewery.git</developerConnection>
+        <developerConnection>scm:git:https://github.com/KalvenDebig/ssc-brewery.git</developerConnection>
+        <tag>HEAD</tag>
     </scm>
 </project>
