@@ -243,4 +243,8 @@
             </plugin>
         </plugins>
     </build>
+
+    <scm>
+        <developerConnection>scm:git@github.com:KalvenDebig/ssc-brewery.git</developerConnection>
+    </scm>
 </project>
